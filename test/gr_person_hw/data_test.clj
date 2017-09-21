@@ -2,7 +2,7 @@
   (:require [gr-person-hw.config :as config]
             [gr-person-hw.data :as data]
             [clj-time.core :as time :only [date-time]]
-            [clojure.test :refer :all]))
+            [clojure.test :refer [deftest is testing]]))
 
 (def comma-delim-string
   "LastName,FirstName,Gender,FavoriteColor,DateOfBirth\r\nWest,Jerry,Male,Blue,11/17/1991\r\nJean,Billie,Female,Red,9/4/1934")
