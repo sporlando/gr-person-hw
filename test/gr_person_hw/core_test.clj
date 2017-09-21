@@ -10,7 +10,7 @@
                  "test_person_pipe.csv"
                  "test_person_space.csv"])
 
-(def cli-options
+(def cli-opts
   [["-F" "--all-files" "Extract all files."]
    ["-f" "--file" "Extract file by name. Repeat command for multiple files."
     :validate [#(core/in? file-names %)
@@ -20,7 +20,7 @@
 
 (deftest test-usage
   (testing "Display options summary correctly."
-    (is (= (core/usage (:summary (parse-opts ["--help"] cli-options)))
+    (is (= (core/usage (:summary (parse-opts ["--help"] cli-opts)))
            (str "Extract Files and display outputs.\n\n"
                 "Options:\n  -F, --all-files  Extract all files.\n  "
                 "-f, --file       "

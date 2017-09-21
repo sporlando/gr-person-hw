@@ -43,7 +43,7 @@
 (def cli-options
   "Provide a list of cli options."
   [["-F" "--all-files" "Extract all files."]
-   ["-f" "--file" "Extract file by name. Repeat command for multiple files."
+   ["-f" "--file FILE NAME" "Extract file by name. Repeat for multiple files."
     :validate [#(in? file-names %)
                (apply str "Valid file names: " (str/join ", " file-names))]
     :assoc-fn concat-file-names]
@@ -54,7 +54,9 @@
   [& args]
   (let [{:keys [options arguments errors summary]} (parse-opts args cli-options)]
     (cond
-      (:all-files options) (exit 0 (data/extract-all-files file-names))
-      (:file options) (exit 0 (data/extract-all-files (:file options)))
+      (:all-files options) (exit 0 (data/output-all
+                                    (data/extract-all-files file-names)))
+      (:file options) (exit 0 (data/output-all
+                               (data/extract-all-files (:file options))))
       (:help options) (exit 0 (usage summary))
       errors (exit 1 (error-msg errors)))))

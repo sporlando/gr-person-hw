@@ -24,8 +24,7 @@
   [coll date-field format]
   (let [date-fn (if (string? (date-field (first coll)))
                   (partial date-str->date-obj) (partial date-obj->date-str))]
-    (mapv #(assoc % date-field
-                    (date-fn (date-field %) format)) coll)))
+    (mapv #(assoc % date-field (date-fn (date-field %) format)) coll)))
 
 (defn print-pretty
   "Uses print-table to display the given data."
