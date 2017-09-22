@@ -34,7 +34,9 @@
 (defn print-pretty
   "Uses print-table to display the given data."
   [data]
-  (print-table data))
+  (do
+    (print-table data)
+    " ")) ; Returns a blank space instead of nil... slightly better for display later.
 
 ;;; Extraction
 

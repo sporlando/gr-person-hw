@@ -57,5 +57,3 @@
            {:a 1 :b ["new value"]}))
     (is (= (reduce #(core/concat-file-names %1 "key" %2) {} ["val1" "val2"])
            {"key" ["val1" "val2"]}))))
-
-;; TODO: Provide tests for remaining options in -main cond.

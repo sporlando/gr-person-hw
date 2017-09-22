@@ -50,7 +50,9 @@
    ["-h" "--help"]])
 
 (defn -main
-  "The main function used to parse command line options and run the program."
+  "The main function used to parse command line options and run the program.
+   From the top level directory of the project type: 'lein run -option (arg)'.
+   For multiple files: 'lein run -f filename1 -f filename2 -f filename3'."
   [& args]
   (let [{:keys [options arguments errors summary]} (parse-opts args cli-options)]
     (cond
