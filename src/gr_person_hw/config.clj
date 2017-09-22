@@ -2,6 +2,8 @@
 
 (def person-file-directory "./resources/ingest-files/")
 
+(def header [:LastName :FirstName :Gender :FavoriteColor :DateOfBirth])
+
 (def file-codec
   {"person_comma_delim.csv" #","
    "person_pipe_delim.csv" #"\|"

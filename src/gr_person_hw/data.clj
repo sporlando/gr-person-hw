@@ -4,6 +4,11 @@
             [clojure.string :as str]
             [clj-time.format :as tf]))
 
+;; This atom is used to mock persistent storage. It is populated by the
+;; POST call in response.clj, and referred to by all GET calls.
+
+(def person-data (atom []))
+
 ;;; Utility
 
 (defn date-str->date-obj
@@ -34,14 +39,18 @@
 ;;; Extraction
 
 (defn delim-str->maps
-  "Extract a delimited string (e.g. slurped from a file) into a vector of maps
-   which have the file header names as keys. Dates strings are also transformed
-   into date objects."
-  [data delim-re]
-  (let [data (map #(str/split % delim-re) (str/split-lines data))
-        header (map keyword (first data))]
-    (transform-dates
-     (map #(zipmap header %) (rest data)) :DateOfBirth config/date-format)))
+  "Extract a delimited string (e.g. slurped from a file) into a vector of maps.
+   The header can either be read from the first line of the file or be passed
+   into the function. Date strings are also turned into Date objects here."
+  ([data delim-re]
+   (let [data (map #(str/split % delim-re) (str/split-lines data))
+         header (map keyword (first data))]
+     (transform-dates
+      (map #(zipmap header %) (rest data)) :DateOfBirth config/date-format)))
+  ([data delim-re header]
+   (let [data (map #(str/split % delim-re) (str/split-lines data))]
+     (transform-dates
+      (map #(zipmap header %) data) :DateOfBirth config/date-format))))
 
 (defn extract-person-file
   "Loads a person file from the filesystem and returns the parsed data."
@@ -76,7 +85,7 @@
   (sort-by :LastName #(compare %2 %1) data))
 
 (defn output-all
-  "Displays all defined outputs."
+  "Displays all defined outputs in the default output (repl or console)."
   [data]
   (let [output1 {:title "By :Gender then :LastName ascending"
                  :output (sort-gender-lastname data)}
